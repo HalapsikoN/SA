@@ -1,0 +1,604 @@
+use the integrand f(z) = 1/(z
+2 + 6z + 8) together with the idea of the last
+example, then there is no “auxiliary radius” that helps. More precisely,
+((reiθ)
+2 + 6reiθ + 8) is a constant multiple of r
+2 + 6r + 8 only if θ is an
+integer multiple of 2π. The following non-obvious device is often of great
+utility in problems of this kind. Define log z on U ≡ C \ {x : x ≥ 0} by
+log(reiθ) = (log r) + iθ when 0 < θ < 2π, r > 0. Here log r is understood to
+be the standard real logarithm. Then, on U, log is a well-defined holomorphic
+function. [Observe here that there are infinitely many ways to define the
+logarithm function on U. One could set log(reiθ) = (log r) + i(θ + 2kπ)
+for any integer choice of k. What we have done here is called “choosing a
+branch” of the logarithm.]
+We use the contour ηR displayed in Figure 4.11 and integrate the function
+g(z) = log z/(z
+2 + 6z + 8). Let
+η
+1
+R(t) = t + i/√
+2R, 1/
+√
+2R ≤ t ≤ R,
+η
+2
+R(t) = Reit, θ0 ≤ t ≤ 2π − θ0,
+where θ0(R) = tan−1
+(1/(R
+√
+2R))
+η
+3
+R(t) = R − t − i/√
+2R, 0 ≤ t ≤ R − 1/
+√
+2R,
+η
+4
+R(t) = e
+−it/
+√
+R, π/4 ≤ t ≤ 7π/4.
+4.5. Applications to the Calculation of Integrals 77
+Now
+I
+ηR
+g(z) dz = 2πi(ResηR
+(−2) · 1 + ResηR
+(−4) · 1)
+= 2πi 
+log(−2)
+2
++
+log(−4)
+−2
+
+= 2πi 
+log 2 + πi
+2
++
+log 4 + πi
+−2
+
+= −πi log 2 . (4.5.6.2)
+Also, it is straightforward to check that
+78 Chapter 4. Isolated Singularities
+
+
+
+
+
+I
+η
+2
+R
+g(z) dz
+
+
+
+
+
+→ 0,
+(4.5.6.3)
+
+
+
+
+
+I
+η
+4
+R
+g(z) dz
+
+
+
+
+
+→ 0 , (4.5.6.4)
+as R → ∞. The device that makes this technique work is that, as R → ∞,
+log(x + i/√
+2R) − log(x − i/√
+2R) → −2πi .
+So
+I
+η
+1
+R
+g(z) dz +
+I
+η
+3
+R
+g(z) dz → −2πi Z ∞
+0
+dt
+t
+2 + 6t + 8
+. (4.5.6.5)
+Now (4.5.6.2)–(4.5.6.5) taken together yield
+Z ∞
+0
+dt
+t
+2 + 6t + 8
+=
+1
+2
+log 2.
+4.5.7 Summing a Series Using Residues
+We sum the series
+X∞
+j=1
+x
+j
+2π
+2 − x
+2
+(4.5.7.1)
+using contour integration. Define cot z = cos z/ sin z. For n = 1, 2, . . . let
+Γn be the contour (shown in Figure 4.12) consisting of the counterclockwise
+oriented square with corners {(±1 ± i) · (n +
+1
+2
+) · π}. For z fixed and n > |z|
+we calculate using residues that
+1
+2πi I
+Γn
+cot ζ
+ζ(ζ − z)
+dζ =
+Xn
+j=1
+1
+jπ(jπ − z)
++
+Xn
+j=1
+1
+jπ(jπ + z)
++
+cot z
+z
+−
+1
+z
+2
+.
+When n  |z|, it is easy to estimate the left-hand side in modulus by
+
+1
+2π
+
+· [4(2n + 1)π] ·
+
+C
+n(n − |z|)
+
+→ 0 as n → ∞.
+4.6. SINGULARITIES AT INFINITY 79
+Figure 4.12: The integral in Subsection 4.5.7.
+Thus we see that
+X∞
+j=1
+1
+jπ(jπ − z)
++
+X∞
+j=1
+1
+jπ(jπ + z)
+= −
+cot z
+z
++
+1
+z
+2
+.
+We conclude that
+X∞
+j=1
+2
+j
+2π
+2 − z
+2
+= −
+cot z
+z
++
+1
+z
+2
+or
+X∞
+j=1
+z
+j
+2π
+2 − z
+2
+= −
+1
+2
+cot z +
+1
+2z
+.
+This is the desired result .
+4.6 Singularities at Infinity
+4.6.1 Meromorphic Functions
+We have considered carefully those functions that are holomorphic on sets
+of the form D(P, r) \ {P} or, more generally, of the form U \ {P}, where U
+is an open set in C and P ∈ U. As we have seen in our discussion of the
+calculus of residues, sometimes it is important to consider the possibility that
+80 Chapter 4. Isolated Singularities
+a function could be “singular” at more than just one point. The appropriate,
+precise definition requires a little preliminary consideration of what kinds of
+sets might be appropriate as “sets of singularities.”
+4.6.2 Definition of Meromorphic Function
+Now fix an open set U; we next define the central concept of meromorphic
+function on U.
+A meromorphic function f on U with singular set S is a function f :
+U \ S → C such that
+(4.6.3.1) S is discrete;
+(4.6.3.2) f is holomorphic on U \ S (note that U \ S is necessarily open in
+C);
+(4.6.3.3) for each P ∈ S and r > 0 such that D(P, r) ⊆ U and S∩D(P, r) =
+{P}, the function f
+
+
+D(P,r)\{P}
+has a (finite order) pole at P.
+For convenience, one often suppresses explicit consideration of the set S
+and just says that f is a meromorphic function on U. Sometimes we say,
+informally, that a meromorphic function on U is a function on U that is
+holomorphic “except for poles.” Implicit in this description is the idea that
+a pole is an “isolated singularity.” In other words, a point P is a pole of f if
+and only if there is a disc D(P, r) around P such that f is holomorphic on
+D(P, r) \ {P} and has a pole at P. Back on the level of precise language,
+we see that our definition of a meromorphic function on U implies that, for
+each P ∈ U, either there is a disc D(P, r) ⊆ U such that f is holomorphic
+on D(P, r) or there is a disc D(P, r) ⊆ U such that f is holomorphic on
+D(P, r) \ {P} and has a pole at P.
+4.6.3 Examples of Meromorphic Functions
+Meromorphic functions are very natural objects to consider, primarily because they result from considering the (algebraic) reciprocals—or more generally the quotients—of holomorphic functions:
+If U is a connected, open set in C and if f : U → C is a holomorphic
+function having at least some zeros but with f 6≡ 0, then the function
+F : U \ {z : f(z) = 0} → C (4.6.4.1)
+4.6. SINGULARITIES AT INFINITY 81
+defined by F(z) = 1/f(z) is a meromorphic function on U with singular set
+(or pole set) equal to {z ∈ U : f(z) = 0}. More generally, meromorphic
+functions locally have the form g(z)/f(z) for f, g holomorphic. In a sense
+that can be made precise, all meromorphic functions arise as quotients of
+holomorphic functions.
+4.6.4 Meromorphic Functions with Infinitely Many Poles
+It is quite possible for a meromorphic function on an open set U to have
+infinitely many poles in U. The function 1/ sin(1/z) is an obvious example
+on U = D \ {0}.
+4.6.5 Singularities at Infinity
+Our discussion so far of singularities of holomorphic functions can be generalized to include the limit behavior of holomorphic functions as |z| → +∞.
+This is a powerful method with many important consequences. Suppose for
+example that f : C → C is an entire function. We can associate to f a
+new function G : C \ {0} → C by setting G(z) = f(1/z). The behavior
+of the function G near 0 reflects, in an obvious sense, the behavior of f as
+|z| → +∞. For instance
+lim
+|z|→+∞
+|f(z)| = +∞ (4.6.6.1)
+if and only if G has a pole at 0.
+Suppose that f : U → C is a holomorphic function on an open set U ⊆ C
+and that, for some R > 0, U ⊇ {z : |z| > R}. Define G : {z : 0 < |z| <
+1/R} → C by G(z) = f(1/z). Then we say that
+(4.6.6.2) f has a removable singularity at ∞ if G has a removable singularity
+at 0.
+(4.6.6.3) f has a pole at ∞ if G has a pole at 0.
+(4.6.6.4) f has an essential singularity at ∞ if G has an essential singularity
+at 0.
+82 Chapter 4. Isolated Singularities
+4.6.6 The Laurent Expansion at Infinity
+The Laurent expansion of G around 0, G(z) = P+∞
+−∞ anz
+n
+, yields immediately
+a series expansion for f which converges for |z| > R, namely,
+f(z) ≡ G(1/z) = X
++∞
+−∞
+anz
+−n =
+X
++∞
+−∞
+a−nz
+n
+. (4.6.7.1)
+The series P+∞
+−∞ a−nz
+n
+is called the Laurent expansion of f around ∞.
+It follows from our definitions and from our earlier discussions that f has a
+removable singularity at ∞ if and only if the Laurent series of f at ∞ has
+no positive powers of z with non-zero coefficients. Also f has a pole at ∞ if
+and only if the series has only a finite number of positive powers of z with
+non-zero coefficients. Finally, f has an essential singularity at ∞ if and only
+if the series has infinitely many positive powers.
+4.6.7 Meromorphic at Infinity
+Suppose that f : C → C is an entire function. Then lim|z|→+∞ |f(z)| = +∞ if
+and only if f is a nonconstant polynomial. In other words, an entire function
+that is not a polynomial will have an essential singularity at infinity.
+To see this last assertion, supposed that f has a pole of order k at ∞.
+Subtracting a polynomial p from f if necessary, we may arrange that f − p
+vanishes to order k at the origin. Of course p has degree at most k. Then
+the function
+g(z) = f(z) − p(z)
+z
+k
+is entire and is bounded. By Liouville’s theorem, g is constant. But then it
+follows that f is a polynomial.
+The entire function f has a removable singularity at ∞ if and only if f
+is a constant. This claim if obvious because f will be bounded.
+Suppose that f is a meromorphic function defined on an open set U ⊆ C
+such that, for some R > 0, we have U ⊇ {z : |z| > R}. We say that f
+is meromorphic at ∞ if the function G(z) ≡ f(1/z) is meromorphic in the
+usual sense on {z : |z| < 1/R}.
+4.6. SINGULARITIES AT INFINITY 83
+4.6.8 Meromorphic Functions in the Extended
+Plane
+The definition of “meromorphic at ∞” as given is equivalent to requiring
+that, for some R0 > R, f has no poles in {z ∈ C : R0 < |z| < ∞} and that
+f has a pole at ∞. The point is that a pole should not be an accumulation
+point of other poles.
+A meromorphic function f on C which is also meromorphic at ∞ must
+be a rational function (that is, a quotient of polynomials in z). For we can
+arrange for one of the poles to be at ∞. Multiplying f by a polynomial p, we
+may arrange for p · f to have no poles. So it must be a polynomial. It follows
+that f is a quotient of polynomials. Conversely, every rational function is
+meromorphic on C and at ∞.
+Remark: It is conventional to rephrase the ideas just presented by saying
+that the only functions that are meromorphic in the “extended plane” are
+rational functions. We will say more about the extended plane in §§6.3.1–
+6.3.3.
+
+Chapter 5
+The Argument Principle
+5.1 Counting Zeros and Poles
+5.1.1 Local Geometric Behavior of a Holomorphic
+Function
+In this chapter, we shall be concerned with questions that have a geometric,
+qualitative nature rather than an analytical, quantitative one. These questions center around the issue of the local geometric behavior of a holomorphic
+function.
+5.1.2 Locating the Zeros of a Holomorphic Function
+Suppose that f : U → C is a holomorphic function on a connected, open set
+U ⊆ C and that D(P, r) ⊆ U. We know from the Cauchy integral formula
+that the values of f on D(P, r) are completely determined by the values of f
+on ∂D(P, r). In particular, the number and even the location of the zeros of f
+in D(P, r) are determined in principle by f on ∂D(P, r). But it is nonetheless
+a pleasant surprise that there is a simple formula for the number of zeros of
+f in D(P, r) in terms of f (and f
+0
+) on ∂D(P, r). In order to obtain a precise
+formula, we shall have to agree to count zeros according to multiplicity (see
+§§3.1.4). We now explain the precise idea.
+Let f : U → C be holomorphic as before, and assume that f has some
+zeros in U but that f is not identically zero. Fix z0 ∈ U such that f(z0) = 0.
+Since the zeros of f are isolated, there is an r > 0 such that D(z0, r) ⊆ U
+and such that f does not vanish on D(z0, r) \ {z0}.
+85
+86 CHAPTER 5. THE ARGUMENT PRINCIPLE
+Now the power series expansion of f about z0 has a first non-zero term
+determined by the least positive integer n such that f
+(n)
+(z0) 6= 0. (Note that
+n ≥ 1 since f(z0) = 0 by hypothesis.) Thus the power series expansion of f
+about z0 begins with the n
+th term:
+f(z) = X∞
+j=n
+1
+j!
+∂
+jf
+∂zj
+(z0)(z − z0)
+j
+. (5.1.2.1)
+Under these circumstances we say that f has a zero of order n (or multiplicity
+n) at z0. When n = 1, then we also say that z0 is a simple zero of f.
+5.1.3 Zero of Order n
+The concept of zero of “order n,” or “multiplicity n,” for a function f is so
+important that a variety of terminology has grown up around it (see also
+§§3.1.4). It has already been noted that, when the multiplicity n = 1, then
+the zero is sometimes called simple. For arbitrary n, we sometimes say that
+“n is the order of z0 as a zero of f.” More generally if f(z0) = β so that, for
+some n ≥ 1, the function f(·) − β has a zero of order n at z0, then we say
+either that “f assumes the value β at z0 to order n” or that “the order of
+the value β at z0 is n.” When n > 1, then we call z0 a multiple point (and β
+a multiple value) of the function f.
+The next result provides a method for computing the multiplicity n of
+the zero at z0 from the values of f, f0 on the boundary of a disc centered at
+z0.
+5.1.4 Counting the Zeros of a Holomorphic Function
+If f is holomorphic on a neighborhood of a disc D(P, r) and has a zero of
+order n at P and no other zeros in the closed disc, then
+1
+2πi I
+∂D(P,r)
+f
+0
+(ζ)
+f(ζ)
+dζ = n. (5.1.4.1)
+More generally, we consider the case that f has several zeros—with different locations and different multiplicities—inside a disc: Suppose that
+f : U → C is holomorphic on an open set U ⊆ C and that D(P, r) ⊆ U.
+Suppose that f is non-vanishing on ∂D(P, r) and that z1, z2, . . ., zk are the
+5.1. COUNTING ZEROS AND POLES 87
+Figure 5.1: Counting the zeros of a holomorphic function.
+zeros of f in the interior of the disc. Let n` be the order of the zero of f at
+z`, ` = 1, . . ., k. Then
+1
+2π
+I
+|ζ−P|=r
+f
+0
+(ζ)
+f(ζ)
+dζ =
+X
+k
+`=1
+n`. (5.1.4.2)
+Refer to Figure 5.1 for illustrations of both these situations.
+The reasons for these formulas is actually quite simple. The primordial
+situation is when P = 0 and f(z) = z
+k
+. In that case we may compute the
+integral (5.1.4.1) directly and the result is immediate. We may write a more
+general f as f(z) = fe(z)·z
+k and then the integral (5.1.4.1) reduces, by simple
+algebra, to the simpler situation just treated. Of course the integral over a
+more general curve can be reduced to the integral over the boundary of a disc
+by our usual device of deformation of curves. Finally, the situation of several
+different zeros may be reduced to the situation of one zero by breaking up
+the curve of integration into smaller curves, each having just one zero in its
+interior.
+5.1.5 The Argument Principle
+This last formula (5.1.4.2), which is often called the argument principle, is
+both useful and important. For one thing, there is no obvious reason why
+88 CHAPTER 5. THE ARGUMENT PRINCIPLE
+Figure 5.2: The argument principle.
+the integral in the formula should be an integer, much less the crucial integer
+that it is. Since it is an integer, it is a counting function; and we need to
+learn more about it.
+The integral
+1
+2π
+I
+|ζ−P|=r
+f
+0
+(ζ)
+f(ζ)
+dζ (5.1.5.1)
+can be reinterpreted as follows: Consider the C
+1
+closed curve
+γ(t) = f(P + reit), t ∈ [0, 2π]. (5.1.5.2)
+Then
+1
+2π
+I
+|ζ−P|=r
+f
+0
+(ζ)
+f(ζ)
+dζ =
+1
+2π
+Z 2π
+0
+γ
+0
+(t)
+γ(t)
+dt, (5.1.5.3)
+as you can check by direct calculation. The expression on the right is just
+the index of the curve γ with respect to 0 (with the notion of index that
+we defined earlier—§§4.4.4). See Figure 5.2. Thus the number of zeros of
+f (counting multiplicity) inside the circle {ζ : |ζ − P| = r} is equal to the
+index of γ with respect to the origin. This, intuitively speaking, is equal to
+the number of times that the f-image of the boundary circle winds around
+0 in C.
+The argument principle can be extended to yield information about meromorphic functions, too. We can see that there is hope for this notion by
+investigating the analog of the argument principle for a pole.
+5.2. THE LOCAL GEOMETRY OF HOLOMORPHIC FUNCTIONS 89
+5.1.6 Location of Poles
+If f : U \ {Q} → C is a nowhere-zero holomorphic function on U \ {Q} with
+a pole of order n at Q and if D(Q, r) ⊆ U, then
+1
+2π
+I
+∂D(Q,r)
+f
+0
+(ζ)
+f(ζ)
+dζ = −n. (5.1.6.1)
+Just as we argued for zeros, the verification of (5.1.6.1) can be reduced to
+checking the identity for the function f(z) = z
+−k when Q = 0.
+5.1.7 The Argument Principle for Meromorphic Functions
+Just as with the argument principle for holomorphic functions, this new argument principle gives a counting principle for zeros and poles of meromorphic
+functions:
+Suppose that f is a meromorphic function on an open set U ⊆ C, that
+D(P, r) ⊆ U, and that f has neither poles nor zeros on ∂D(P, r). Assume
+that n1, n2, . . . , np are the multiplicities of the zeros z1, z2, . . ., zp of f in
+D(P, r) and m1, m2, . . . , mq are the orders of the poles w1, w2, . . ., wq of f in
+D(P, r).
+Then
+1
+2π
+I
+∂D(P,r)
+f
+0
+(ζ)
+f(ζ)
+dζ =
+X
+p
+j=1
+nj −
+X
+q
+k=1
+mk. (5.1.7.1)
+5.2 The Local Geometry of Holomorphic Functions
+5.2.1 The Open Mapping Theorem
+The argument principle for holomorphic functions has a consequence that is
+one of the most important facts about holomorphic functions considered as
+geometric mappings:
+Theorem: If f : U → C is a non-constant holomorphic function
+on a connected open set U, then f(U) is an open set in C.
+90 CHAPTER 5. THE ARGUMENT PRINCIPLE
+Figure 5.3: The open mapping principle.
+(5.2.1.1)
+See Figure 5.3. The result says, in particular, that if U ⊆ C is connected
+and open and if f : U → C is holomorphic, then either f(U) is a connected
+open set (the non-constant case) or f(U) is a single point.
+To see why the open mapping principle is true, let β be a value of the
+holomorphic function f. Say that f(b) = β, and let D(b, r) be a small disc
+as usual in the domain of f. Suppose for simplicity that β is a simple value
+of f. Then of course
+1 = 1
+2πi I
+∂D(b,r)
+f
+0
+(ζ)
+f(ζ) − β
+dζ . (5.2.1.2)
+If we perturb β a little bit on the righthand side of this integral (a perturbation much smaller than r), then the integral will still be integer-valued, and
+its value will be very close to 1. So in fact it must be 1. Thus we conclude
+that f also takes on that small perturbed value of β. We have argued then
+that f assumes all values near β. But this means that the image of f is open.
+In the subject of topology, a function f is defined to be continuous if the
+inverse image of any open set under f is also open. In contexts where the
+ − δ definition makes sense, the  − δ definition (§§2.2.1, 2.2.2) is equivalent
+to the inverse-image-of-open-sets definition. By contrast, functions for which
+the direct image of any open set is open are called “open mappings.”
+Here is a quantitative, or counting, statement that comes from the proof
+of the open mapping principle: Suppose that f : U → C is a non-constant
+5.3. Further Results on Zeros 91
+holomorphic function on a connected open set U such that P ∈ U and
+f(P) = Q with order k. Then there are numbers δ,  > 0 such that each
+q ∈ D(Q, ) \ {Q} has exactly k distinct pre-images in D(P, δ) and each
+pre-image is a simple point of f. Of course the justification is again a simple
+application of (5.2.1.2).
+The considerations that establish the open mapping principle can also
+be used to establish the fact that if f : U → V is a one-to-one

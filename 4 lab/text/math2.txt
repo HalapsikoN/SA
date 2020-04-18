@@ -1,0 +1,187 @@
+This means we end up with the same objective function as in (10.29) that
+we discussed in Section 10.3 so that we obtain the PCA solution when we
+minimize the squared auto-encoding loss. If we replace the linear mapping of PCA with a nonlinear mapping, we get a nonlinear auto-encoder.
+A prominent example of this is a deep auto-encoder where the linear functions are replaced with deep neural networks. In this context, the encoder
+recognition network is also known as a recognition network or inference network, whereas the
+inference network decoder is also called a generator.
+generator Another interpretation of PCA is related to information theory. We can
+think of the code as a smaller or compressed version of the original data
+point. When we reconstruct our original data using the code, we do not
+get the exact data point back, but a slightly distorted or noisy version
+The code is a of it. This means that our compression is “lossy”. Intuitively, we want
+compressed version
+of the original data.
+to maximize the correlation between the original data and the lowerdimensional code. More formally, this is related to the mutual information.
+We would then get the same solution to PCA we discussed in Section 10.3
+by maximizing the mutual information, a core concept in information theory (MacKay, 2003).
+In our discussion on PPCA, we assumed that the parameters of the
+model, i.e., B, µ, and the likelihood parameter σ
+2
+, are known. Tipping
+and Bishop (1999) describe how to derive maximum likelihood estimates
+for these parameters in the PPCA setting (note that we use a different
+notation in this chapter). The maximum likelihood parameters, when proDraft (2020-04-14) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+10.8 Further Reading 345
+jecting D-dimensional data onto an M-dimensional subspace, are
+µML =
+1
+N
+X
+N
+n=1
+xn , (10.77)
+BML = T (Λ − σ
+2
+I)
+1
+2 R , (10.78)
+σ
+2
+ML =
+1
+D − M
+X
+D
+j=M+1
+λj , (10.79)
+where T ∈ RD×M contains M eigenvectors of the data covariance matrix, The matrix Λ − σ
+2I
+in (10.78) is
+guaranteed to be
+positive semidefinite
+as the smallest
+eigenvalue of the
+data covariance
+matrix is bounded
+from below by the
+noise variance σ
+2
+.
+Λ = diag(λ1, . . . , λM) ∈ RM×M is a diagonal matrix with the eigenvalues
+associated with the principal axes on its diagonal, and R ∈ RM×M is
+an arbitrary orthogonal matrix. The maximum likelihood solution BML is
+unique up to an arbitrary orthogonal transformation, e.g., we can rightmultiply BML with any rotation matrix R so that (10.78) essentially is a
+singular value decomposition (see Section 4.5). An outline of the proof is
+given by Tipping and Bishop (1999).
+The maximum likelihood estimate for µ given in (10.77) is the sample
+mean of the data. The maximum likelihood estimator for the observation
+noise variance σ
+2 given in (10.79) is the average variance in the orthogonal complement of the principal subspace, i.e., the average leftover variance that we cannot capture with the first M principal components is
+treated as observation noise.
+In the noise-free limit where σ → 0, PPCA and PCA provide identical
+solutions: Since the data covariance matrix S is symmetric, it can be diagonalized (see Section 4.4), i.e., there exists a matrix T of eigenvectors
+of S so that
+S = T ΛT
+−1
+. (10.80)
+In the PPCA model, the data covariance matrix is the covariance matrix of
+the Gaussian likelihood p(x | B, µ, σ2
+), which is BB>+σ
+2I, see (10.70b).
+For σ → 0, we obtain BB>
+so that this data covariance must equal the
+PCA data covariance (and its factorization given in (10.80)) so that
+Cov[X ] = T ΛT
+−1 = BB> ⇐⇒ B = T Λ
+1
+2 R , (10.81)
+i.e., we obtain the maximum likelihood estimate in (10.78) for σ = 0.
+From (10.78) and (10.80), it becomes clear that (P)PCA performs a decomposition of the data covariance matrix.
+In a streaming setting, where data arrives sequentially, it is recommended to use the iterative expectation maximization (EM) algorithm for
+maximum likelihood estimation (Roweis, 1998).
+To determine the dimensionality of the latent variables (the length of
+the code, the dimensionality of the lower-dimensional subspace onto which
+we project the data), Gavish and Donoho (2014) suggest the heuristic
+that, if we can estimate the noise variance σ
+2 of the data, we should
+
+c 2020 M. P. Deisenroth, A. A. Faisal, C. S. Ong. To be published by Cambridge University Press.
+346 Dimensionality Reduction with Principal Component Analysis
+discard all singular values smaller than 4σ
+√
+√
+D
+3
+. Alternatively, we can use
+(nested) cross-validation (Section 8.6.1) or Bayesian model selection criteria (discussed in Section 8.6.2) to determine a good estimate of the
+intrinsic dimensionality of the data (Minka, 2001b).
+Similar to our discussion on linear regression in Chapter 9, we can place
+a prior distribution on the parameters of the model and integrate them
+out. By doing so, we (a) avoid point estimates of the parameters and the
+issues that come with these point estimates (see Section 8.6) and (b) allow for an automatic selection of the appropriate dimensionality M of the
+Bayesian PCA latent space. In this Bayesian PCA, which was proposed by Bishop (1999),
+a prior p(µ, B, σ2
+) is placed on the model parameters. The generative
+process allows us to integrate the model parameters out instead of conditioning on them, which addresses overfitting issues. Since this integration
+is analytically intractable, Bishop (1999) proposes to use approximate inference methods, such as MCMC or variational inference. We refer to the
+work by Gilks et al. (1996) and Blei et al. (2017) for more details on these
+approximate inference techniques.
+In PPCA, we considered the linear model p(xn | zn) = N
+
+xn | Bzn +
+µ, σ2I
+
+with prior p(zn) = N
+
+0, I
+
+, where all observation dimensions
+are affected by the same amount of noise. If we allow each observation
+dimension d to have a different variance σ
+2
+d
+factor analysis , we obtain factor analysis
+(FA) (Spearman, 1904; Bartholomew et al., 2011). This means that FA
+gives the likelihood some more flexibility than PPCA, but still forces the
+An overly flexible data to be explained by the model parameters B, µ.However, FA no
+likelihood would be
+able to explain more
+than just the noise.
+longer allows for a closed-form maximum likelihood solution so that we
+need to use an iterative scheme, such as the expectation maximization
+algorithm, to estimate the model parameters. While in PPCA all stationary points are global optima, this no longer holds for FA. Compared to
+PPCA, FA does not change if we scale the data, but it does return different
+solutions if we rotate the data.
+independent An algorithm that is also closely related to PCA is independent comcomponent analysis ponent analysis (ICA (Hyvarinen et al., 2001)). Starting again with the
+ICA latent-variable perspective p(xn | zn) = N
+
+xn | Bzn + µ, σ2I
+
+we now
+change the prior on zn to non-Gaussian distributions. ICA can be used
+blind-source for blind-source separation. Imagine you are in a busy train station with
+separation many people talking. Your ears play the role of microphones, and they
+linearly mix different speech signals in the train station. The goal of blindsource separation is to identify the constituent parts of the mixed signals.
+As discussed previously in the context of maximum likelihood estimation
+for PPCA, the original PCA solution is invariant to any rotation. Therefore,
+PCA can identify the best lower-dimensional subspace in which the signals live, but not the signals themselves (Murphy, 2012). ICA addresses
+this issue by modifying the prior distribution p(z) on the latent sources
+Draft (2020-04-14) of “Mathematics for Machine Learning”. Feedback: https://mml-book.c
+10.8 Further Reading 347
+to require non-Gaussian priors p(z). We refer to the books by Hyvarinen
+et al. (2001) and Murphy (2012) for more details on ICA.
+PCA, factor analysis, and ICA are three examples for dimensionality reduction with linear models. Cunningham and Ghahramani (2015) provide
+a broader survey of linear dimensionality reduction.
+The (P)PCA model we discussed here allows for several important extensions. In Section 10.5, we explained how to do PCA when the input dimensionality D is significantly greater than the number N of data
+points. By exploiting the insight that PCA can be performed by computing
+(many) inner products, this idea can be pushed to the extreme by considering infinite-dimensional features. The kernel trick is the basis of kernel kernel trick
+PCA and allows us to implicitly compute inner products between infinite- kernel PCA
+dimensional features (Scholkopf et al. ¨ , 1998; Scholkopf and Smola ¨ , 2002).
+There are nonlinear dimensionality reduction techniques that are derived from PCA (Burges (2010) provides a good overview). The autoencoder perspective of PCA that we discussed previously in this section
+can be used to render PCA as a special case of a deep auto-encoder. In the deep auto-encoder
+deep auto-encoder, both the encoder and the decoder are represented by
+multilayer feedforward neural networks, which themselves are nonlinear
+mappings. If we set the activation functions in these neural networks to be
+the identity, the model becomes equivalent to PCA. A different approach to
+nonlinear dimensionality reduction is the Gaussian process latent-variable Gaussian process
+latent-variable
+model
+model (GP-LVM) proposed by Lawrence (2005). The GP-LVM starts off with
+GP-LVM
+the latent-variable perspective that we used to derive PPCA and replaces
+the linear relationship between the latent variables z and the observations
+x with a Gaussian process (GP). Instead of estimating the parameters of
+the mapping (as we do in PPCA), the GP-LVM marginalizes out the model
+parameters and makes point estimates of the latent variables z. Similar
+to Bayesian PCA, the Bayesian GP-LVM proposed by Titsias and Lawrence Bayesian GP-LVM
+(2010) maintains a distribution on the latent variables z and uses approximate inference to integrate them out as well.

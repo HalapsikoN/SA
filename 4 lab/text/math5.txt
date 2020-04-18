@@ -1,0 +1,151 @@
+Here, we’re saying that G is a set and · is a function from G × G into G such that γ1
+and γ2 hold in G (with “∀x” meaning “for all x ∈ G”, so G is our universe, as discussed
+in Section 0.2). Axiom γ1 is the associative law. Axiom γ2 says that there is an identity
+element u, and that for every x, there is an inverse y, such that xy = yx = u. A more
+formal discussion of models and axioms will occur in Chapter II.
+From the axioms, one proves theorems. For example, the group axioms imply the
+cancellation rule. We say: GP ⊢ ∀xyz[x · y = x · z → y = z]. This turnstile symbol “⊢”
+is read “proves”.
+This formal presentation is definitely not a direct quote from Cayley, who stated his
+axioms in English. Rather, it is influenced by the mathematical logic and set theory of
+the 1900s. Prior to that, axioms were stated in a natural language (e.g., Greek, English,
+etc.), and proofs were just given in “ordinary reasoning”; exactly what a proof is was not
+formally analyzed. This is still the case now in most of mathematics. Logical symbols
+are frequently used as abbreviations of English words, but most math books assume that
+you can recognize a correct proof when you see it, without formal analysis. However,
+the Foundations of Mathematics should give a precise definition of what a mathematical
+statement is and what a mathematical proof is, as we do in Chapter II, which covers
+model theory and proof theory.
+This formal analysis makes a clear distinction between syntax and semantics. GP is
+viewed as a set of two sentences in predicate logic; this is a formal language with precise
+rules of formation (just like computer languages such as C or java or TEX or html). A
+formal proof is then a finite sequence of sentences in this formal language obeying some
+precisely defined rules of inference – for example, the Modus Ponens rule (see Section
+II.10) says that from ϕ → ψ and ϕ you can infer ψ. So, the sentences of predicate logic
+and the formal proofs are syntactic objects. Once we have given a precise definition,
+it will not be hard to show (see Exercise II.11.11) that there really is a formal proof of
+cancellation from the axioms GP
+CHAPTER 0. INTRODUCTION 7
+Semantics involves meaning, or structures, such as groups. The syntax and semantics
+are related by the Completeness Theorem (see Theorem II.12.1), which says that GP ⊢ ϕ
+iff ϕ is true in all groups.
+After the Completeness Theorem, model theory and proof theory diverge. Proof
+theory studies more deeply the structure of formal proofs, whereas model theory emphasizes primarily the semantics – that is, the mathematical structure of the models. For
+example, let G be an infinite group. Then G has a subgroup H ⊆ G which is countably
+infinite. Also, given any cardinal number κ ≥ |G|, there is a group K ⊇ G of size κ.
+Proving these statements is an easy algebra exercises if you know some set theory, which
+you will after reading Chapter I.
+These statements are part of model theory, not group theory, because they are special cases of the L¨owenheim–Skolem-Tarski Theorem (see Theorems II.16.4 and II.16.5),
+which applies to models of arbitrary theories. You can also get H, K to satisfy all the
+first-order properties true in G. For example if G is non-abelian, then H, K will be also.
+Likewise for other properties, such as “abelian” or “3-divisible” (∀x∃y(yyy = x)). The
+proof, along with the definition of “first-order”, is part of model theory (Chapter II),
+but the proof uses facts about cardinal numbers from set theory, which brings us to the
+third example:
+Example 3: Set Theory. For infinite sets, the basic work was done by Cantor in
+the 1880s and 1890s, although the idea of sets — especially finite ones, occurred much
+earlier. This is our first topic, so you will soon see a lot about uncountable cardinal
+numbers. Cantor just worked naively, not axiomatically, although he was aware that
+naive reasoning could lead to contradictions. The first axiomatic approach was due to
+Zermelo (1908), and was improved later by Fraenkel and von Neumann, leading to the
+current system ZFC (see Section I.2), which is now considered to be the “standard”
+axioms for set theory.
+A philosophical remark: In model theory, every list of sentences in formal logic forms
+the axioms for some (maybe uninteresting) axiomatic theory, but informally, there are
+two different uses to the word “axioms”: as “statements of faith” and as “definitional
+axioms”. The first use is closest to the dictionary definition of an axiom as a “truism”
+or a “statement that needs no proof because its truth is obvious”. The second use is
+common in algebra, where one speaks of the “axioms” for groups, rings, fields, etc.
+Consider our three examples:
+Example 1 (Classical Greek view): these are statements of faith — that is, they are
+obviously true facts about real physical space, from which one may then derive other
+true but non-obvious facts, so that by studying Euclidean geometry, one is studying
+the structure of the real world. The intended universe is fixed – it could be thought
+of as all geometric objects in the physical universe. Of course, Plato pointed out that
+“perfect” lines, triangles, etc. only exist in some abstract idealization of the universe,
+but no one doubted that the results of Euclidean geometry could be safely applied to
+solve real-world problems.
+CHAPTER 0. INTRODUCTION 8
+Example 2 (Everyone’s view): these are definitional axioms. The axioms do not
+capture any deep “universal truth”; they only serve to define a useful class of structure.
+Groups occur naturally in many areas of mathematics, so one might as well encapsulate
+their properties and prove theorems about them. Group theory is the study of groups in
+general, not one specific group, and the intended domain of discourse is the particular
+group under discussion.
+This view of Example 2 has never changed since the subject was first studied, but
+our view of geometry has evolved. First of all, as Einstein pointed out, the Euclidean
+axioms are false in real physical space, and will yield incorrect results when applied to
+real-world problems. Furthemore, most modern uses of geometry are not axiomatic. We
+define 3-dimensional space as R
+3
+, and we discuss various metrics (notions of distance) on
+it, including the Euclidean metric, which approximately (but not exactly) corresponds to
+reality. Thus, in the modern view, geometry is the study of geometries, not one specific
+geometry, and the Euclidean axioms have been downgraded to mere definitional axioms
+— one way of describing a specific (flat) geometry.
+Example 3 (Classical (mid 1900s) view): these are statements of faith. ZFC is the
+theory of everything (see Section I.4). Modern mathematics might seem to be a mess
+of various axiom systems: groups, rings, fields, geometries, vector spaces, etc., etc. This
+is all subsumed within set theory, as we’ll see in Chapter I. So, we postulate once and
+for all these ZFC axioms. Then, from these axioms, there are no further assumptions;
+we just make definitions and prove theorems. Working in ZFC , we say that a group is
+a set G together with a product on it satisfying γ1, γ2. The product operation is really
+a function of two variables defined on G, but a function is also a special kind of set —
+namely, a set of ordered pairs. If you want to study geometry, you would want to know
+that a metric space is a set X, together with some distance function d on it satisfying
+some well-known properties. The distances, d(x, y), are real numbers. The real numbers
+form the specific set R, constructed within ZFC by a set-theoretic procedure which we
+shall describe later (see Definition I.15.4).
+We study set theory first because it is the foundation of everything. Also, the discussion will produce some technical results on infinite cardinalities which are useful in
+a number of the more abstract areas of mathematics. In particular, these results are
+needed for the model theory in Chapter II; they are also important in analysis and
+topology and algebra, as you will see from various exercises in this book. In Chapter I,
+we shall state the axioms precisely, but the proofs will be informal, as they are in most
+math texts. When we get to Chapter II, we shall look at formal proofs from various
+axiom systems, and GP and ZFC will be interesting specific examples.
+The ZFC axioms are listed in Section I.2. The list is rather long, but by the end of
+Chapter I, you should understand the meaning of each axiom and why it is important.
+Chapter I will also make some brief remarks on the interrelationships between the axioms; further details on this are covered in texts in set theory, such as [18, 20]. These
+interrelationships are not so simple, since ZFC does not settle everything of interest.
+Most notably, ZFC doesn’t determine the truth of the Continuum Hypotheses, CH .
+CHAPTER 0. INTRODUCTION 9
+This is the assertion that every uncountable subset of R has the same size as R.
+Example 3 (Modern view): these are definitional axioms. Set theory is the study of
+models of ZFC. There are, for example, models in which 2ℵ0 = ℵ5; this means that there
+are exactly four infinite cardinalities, called ℵ1, ℵ2, ℵ3, ℵ4, strictly between countable and
+the size of R. By the end of Chapter I, you will understand exactly what CH and ℵn
+mean, but the models will only be hinted at.
+Chapter III covers recursion theory, or the theory of algorithms and computability.
+Since most people have used a computer, the informal notion of algorithm is well-known
+to the general public. The following sets are clearly decidable, in that you can write
+a program which tests for them in your favorite programming language (assuming this
+language is something reasonable, like C or java or python):
+1. The set of primes.
+2. The set of axioms of ZFC .
+3. The set of valid C programs.
+That is, if you are not concerned with efficiency, you can easily write a program which
+inputs a number or symbolic expression and tells you whether or not it’s a member of
+one of these sets. For (1), you input an integer x > 1 and check to see if it is divisible
+by any of the integers y with x > y > 1. For (2), you input a finite symbolic expression
+and see if it is among the axiom types listed in Section I.2. Task (3) is somewhat harder,
+and you would have to refer to the C manual for the precise definition of the language,
+but a C compiler accomplishes task (3), among many other things.
+Deeper results involve proving that certain sets which are not decidable, such as the
+following:
+4. The set of C programs which halt (say, with all values of their input).
+5. {ϕ : ZFC ⊢ ϕ}.
+That is, there is no program which reads a sentences ϕ in the language of set theory and
+tells you whether or not ZFC ⊢ ϕ. Informally, “mathematical truth is not decidable”.
+Certainly, results of this form are relevant to the foundations of mathematics. Chapter III
+will also be an introduction to understanding the meaning of some more advanced results
+along this line, which are not proved in this book. Such results are relevant to many areas
+of mathematics. For example, {ϕ : GP ⊢ ϕ} is not decidable, whereas {ϕ : AGP ⊢ ϕ}
+is decidable, where AGP is the axioms for abelian groups. The proofs involve a lot of
+group theory. Likewise, the solvability of diophantine equations (algebraic equations over
+Z) is undecidable; this proof involves a lot of number theory. Also, in topology, simple
+connectivity is undecidable. That is, there’s no algorithm which inputs a polyhedron
+(presented, for example, as a finite simplicial complex) and tells you whether or not it’s
+simply connected. This proof involves some elementary facts about the fundamental
+group in topology, plus the knowledge that the word problem for groups is undecidable.
+This book only touches on the basics of recursion theory, but we shall give a precise
+definition of “decidable” and explain its relevance to set theory and model theory.

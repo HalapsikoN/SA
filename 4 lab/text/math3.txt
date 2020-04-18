@@ -1,0 +1,272 @@
+Another approach to obtain the dual SVM is to consider an alternative
+geometric argument. Consider the set of examples xn with the same label.
+We would like to build a convex set that contains all the examples such
+that it is the smallest possible set. This is called the convex hull and is
+illustrated in Figure 12.9.
+Let us first build some intuition about a convex combination of points.
+Consider two points x1 and x2 and corresponding non-negative weights
+α1, α2 > 0 such that α1+α2 = 1. The equation α1x1+α2x2 describes each
+point on a line between x1 and x2. Consider what happens when we add
+a third point x3 along with a weight α3 > 0 such that P3
+n=1 αn = 1.
+The convex combination of these three points x1, x2, x3 spans a twoconvex hull dimensional area. The convex hull of this area is the triangle formed by
+the edges corresponding to each pair of of points. As we add more points,
+and the number of points becomes greater than the number of dimensions, some of the points will be inside the convex hull, as we can see in
+Figure 12.9(a).
+In general, building a convex convex hull can be done by introducing
+non-negative weights αn > 0 corresponding to each example xn. Then
+the convex hull can be described as the set
+conv (X) = (X
+N
+n=1
+αnxn
+)
+with X
+N
+n=1
+αn = 1 and αn > 0, (12.43)
+Draft (2020-04-14) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+12.3 Dual Support Vector Machine 387
+for all n = 1, . . . , N. If the two clouds of points corresponding to the
+positive and negative classes are separated, then the convex hulls do not
+overlap. Given the training data (x1, y1), . . . ,(xN , yN ), we form two convex hulls, corresponding to the positive and negative classes respectively.
+We pick a point c, which is in the convex hull of the set of positive examples, and is closest to the negative class distribution. Similarly, we pick a
+point d in the convex hull of the set of negative examples and is closest to
+the positive class distribution; see Figure 12.9(b). We define a difference
+vector between d and c as
+w := c − d . (12.44)
+Picking the points c and d as in the preceding cases, and requiring them
+to be closest to each other is equivalent to minimizing the length/norm of
+w, so that we end up with the corresponding optimization problem
+arg min
+w
+kwk = arg min
+w
+1
+2
+kwk
+2
+. (12.45)
+Since c must be in the positive convex hull, it can be expressed as a convex
+combination of the positive examples, i.e., for non-negative coefficients
+α
++
+n
+c =
+X
+n:yn=+1
+α
++
+n xn . (12.46)
+In (12.46), we use the notation n : yn = +1 to indicate the set of indices
+n for which yn = +1. Similarly, for the examples with negative labels, we
+obtain
+d =
+X
+n:yn=−1
+α
+−
+n xn . (12.47)
+By substituting (12.44), (12.46), and (12.47) into (12.45), we obtain the
+objective
+min
+α
+1
+2
+
+
+
+
+
+
+
+
+
+
+X
+n:yn=+1
+α
++
+n xn −
+X
+n:yn=−1
+α
+−
+n xn
+
+
+
+
+
+
+
+
+
+
+2
+. (12.48)
+Let α be the set of all coefficients, i.e., the concatenation of α+ and α−.
+Recall that we require that for each convex hull that their coefficients sum
+to one,
+X
+n:yn=+1
+α
++
+n = 1 and X
+n:yn=−1
+α
+−
+n = 1 . (12.49)
+This implies the constraint
+X
+N
+n=1
+ynαn = 0 . (12.50)
+
+c 2020 M. P. Deisenroth, A. A. Faisal, C. S. Ong. To be published by Cambridge University Press.
+388 Classification with Support Vector Machines
+This result can be seen by multiplying out the individual classes
+X
+N
+n=1
+ynαn =
+X
+n:yn=+1
+(+1)α
++
+n +
+X
+n:yn=−1
+(−1)α
+−
+n
+(12.51a)
+=
+X
+n:yn=+1
+α
++
+n −
+X
+n:yn=−1
+α
+−
+n = 1 − 1 = 0 . (12.51b)
+The objective function (12.48) and the constraint (12.50), along with the
+assumption that α > 0, give us a constrained (convex) optimization problem. This optimization problem can be shown to be the same as that of
+the dual hard margin SVM (Bennett and Bredensteiner, 2000a).
+Remark. To obtain the soft margin dual, we consider the reduced hull. The
+reduced hull reduced hull is similar to the convex hull but has an upper bound to the
+size of the coefficients α. The maximum possible value of the elements
+of α restricts the size that the convex hull can take. In other words, the
+bound on α shrinks the convex hull to a smaller volume (Bennett and
+Bredensteiner, 2000b). ♦
+12.4 Kernels
+Consider the formulation of the dual SVM (12.41). Notice that the inner product in the objective occurs only between examples xi and xj .
+There are no inner products between the examples and the parameters.
+Therefore, if we consider a set of features φ(xi) to represent xi
+, the only
+change in the dual SVM will be to replace the inner product. This modularity, where the choice of the classification method (the SVM) and the
+choice of the feature representation φ(x) can be considered separately,
+provides flexibility for us to explore the two problems independently. In
+this section, we discuss the representation φ(x) and briefly introduce the
+idea of kernels, but do not go into the technical details.
+Since φ(x) could be a non-linear function, we can use the SVM (which
+assumes a linear classifier) to construct classifiers that are nonlinear in
+the examples xn. This provides a second avenue, in addition to the soft
+margin, for users to deal with a dataset that is not linearly separable. It
+turns out that there are many algorithms and statistical methods that have
+this property that we observed in the dual SVM: the only inner products
+are those that occur between examples. Instead of explicitly defining a
+non-linear feature map φ(·) and computing the resulting inner product
+between examples xi and xj , we define a similarity function k(xi
+, xj ) bekernel tween xi and xj . For a certain class of similarity functions, called kernels,
+the similarity function implicitly defines a non-linear feature map φ(·).
+The inputs X of the Kernels are by definition functions k : X × X → R for which there exists
+kernel function can
+be very general and
+are not necessarily
+restricted to RD.
+a Hilbert space H and φ : X → H a feature map such that
+k(xi
+, xj ) = hφ(xi), φ(xj )iH
+. (12.52)
+Draft (2020-04-14) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+12.4 Kernels 389
+Figure 12.10 SVM
+with different
+kernels. Note that
+while the decision
+boundary is
+nonlinear, the
+underlying problem
+being solved is for a
+linear separating
+hyperplane (albeit
+with a nonlinear
+kernel).
+First feature
+Second feature
+(a) SVM with linear kernel
+First feature
+Second feature
+(b) SVM with RBF kernel
+First feature
+Second feature
+(c) SVM with polynomial (degree 2) kernel
+First feature
+Second feature
+(d) SVM with polynomial (degree 3) kernel
+There is a unique reproducing kernel Hilbert space associated with every
+kernel k (Aronszajn, 1950; Berlinet and Thomas-Agnan, 2004). In this
+unique association, φ(x) = k(·, x) is called the canonical feature map. canonical feature
+The generalization from an inner product to a kernel function (12.52 map ) is
+known as the kernel trick (Scholkopf and Smola ¨ , 2002; Shawe-Taylor and kernel trick
+Cristianini, 2004), as it hides away the explicit non-linear feature map.
+The matrix K ∈ RN×N , resulting from the inner products or the application of k(·, ·) to a dataset, is called the Gram matrix, and is often just Gram matrix
+referred to as the kernel matrix. Kernels must be symmetric and positive kernel matrix
+semidefinite functions so that every kernel matrix K is symmetric and
+positive semidefinite (Section 3.2.3):
+∀z ∈ R
+N : z
+>Kz > 0 . (12.53)
+Some popular examples of kernels for multivariate real-valued data xi ∈
+RD are the polynomial kernel, the Gaussian radial basis function kernel,
+and the rational quadratic kernel (Scholkopf and Smola ¨ , 2002; Rasmussen
+
+c 2020 M. P. Deisenroth, A. A. Faisal, C. S. Ong. To be published by Cambridge University Press.
+390 Classification with Support Vector Machines
+and Williams, 2006). Figure 12.10 illustrates the effect of different kernels
+on separating hyperplanes on an example dataset. Note that we are still
+solving for hyperplanes, that is, the hypothesis class of functions are still
+linear. The non-linear surfaces are due to the kernel function.
+Remark. Unfortunately for the fledgling machine learner, there are multiple meanings of the word “kernel.” In this chapter, the word “kernel”
+comes from the idea of the reproducing kernel Hilbert space (RKHS) (Aronszajn, 1950; Saitoh, 1988). We have discussed the idea of the kernel in linear algebra (Section 2.7.3), where the kernel is another word for the null
+space. The third common use of the word “kernel” in machine learning is
+the smoothing kernel in kernel density estimation (Section 11.5). ♦
+Since the explicit representation φ(x) is mathematically equivalent to
+the kernel representation k(xi
+, xj ), a practitioner will often design the
+kernel function such that it can be computed more efficiently than the
+inner product between explicit feature maps. For example, consider the
+polynomial kernel (Scholkopf and Smola ¨ , 2002), where the number of
+terms in the explicit expansion grows very quickly (even for polynomials
+of low degree) when the input dimension is large. The kernel function
+only requires one multiplication per input dimension, which can provide
+significant computational savings. Another example is the Gaussian radial basis function kernel (Scholkopf and Smola ¨ , 2002; Rasmussen and
+Williams, 2006), where the corresponding feature space is infinite dimensional. In this case, we cannot explicitly represent the feature space but
+The choice of can still compute similarities between a pair of examples using the kernel.
+kernel, as well as
+the parameters of
+the kernel, is often
+chosen using nested
+cross-validation
+(Section 8.6.1).
+Another useful aspect of the kernel trick is that there is no need for
+the original data to be already represented as multivariate real-valued
+data. Note that the inner product is defined on the output of the function
+φ(·), but does not restrict the input to real numbers. Hence, the function
+φ(·) and the kernel function k(·, ·) can be defined on any object, e.g.,
+sets, sequences, strings, graphs, and distributions (Ben-Hur et al., 2008;
+Gartner ¨ , 2008; Shi et al., 2009; Sriperumbudur et al., 2010; Vishwanathan
+et al., 2010).

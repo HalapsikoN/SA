@@ -1,0 +1,236 @@
+6.4.2 Empirical Means and Covariances
+The definitions in Section 6.4.1 are often also called the population mean population mean
+and covariance and covariance , as it refers to the true statistics for the population. In machine learning, we need to learn from empirical observations of data. Consider a random variable X. There are two conceptual steps to go from
+
+c 2020 M. P. Deisenroth, A. A. Faisal, C. S. Ong. To be published by Cambridge University Press.
+192 Probability and Distributions
+population statistics to the realization of empirical statistics. First, we use
+the fact that we have a finite dataset (of size N) to construct an empirical
+statistic that is a function of a finite number of identical random variables,
+X1, . . . , XN . Second, we observe the data, that is, we look at the realization x1, . . . , xN of each of the random variables and apply the empirical
+statistic.
+Specifically, for the mean (Definition 6.4), given a particular dataset we
+empirical mean can obtain an estimate of the mean, which is called the empirical mean or
+sample mean sample mean. The same holds for the empirical covariance.
+empirical mean Definition 6.9 (Empirical Mean and Covariance). The empirical mean vector is the arithmetic average of the observations for each variable, and it
+is defined as
+x? :=
+1
+N
+X
+N
+n=1
+xn , (6.41)
+where xn ? RD.
+empirical covariance Similar to the empirical mean, the empirical covariance matrix is a D?D
+matrix
+? :=
+1
+N
+X
+N
+n=1
+(xn ? x?)(xn ? x?)
+>. (6.42)
+Throughout the
+book, we use the
+empirical
+covariance, which is
+a biased estimate.
+The unbiased
+(sometimes called
+corrected)
+covariance has the
+factor N ? 1 in the
+denominator
+instead of N.
+To compute the statistics for a particular dataset, we would use the
+realizations (observations) x1, . . . , xN and use (6.41) and (6.42). Empirical covariance matrices are symmetric, positive semidefinite (see Section 3.2.3).
+6.4.3 Three Expressions for the Variance
+We now focus on a single random variable X and use the preceding empirical formulas to derive three possible expressions for the variance. The
+The derivations are
+exercises at the end
+of this chapter.
+following derivation is the same for the population variance, except that
+we need to take care of integrals. The standard definition of variance, corresponding to the definition of covariance (Definition 6.5), is the expectation of the squared deviation of a random variable X from its expected
+value µ, i.e.,
+VX[x] := EX[(x ? µ)
+2
+] . (6.43)
+The expectation in (6.43) and the mean µ = EX(x) are computed using (6.32), depending on whether X is a discrete or continuous random
+variable. The variance as expressed in (6.43) is the mean of a new random
+variable Z := (X ? µ)
+2
+.
+When estimating the variance in (6.43) empirically, we need to resort
+to a two-pass algorithm: one pass through the data to calculate the mean
+µ using (6.41), and then a second pass using this estimate µ? calculate the
+Draft (2020-04-14) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com.
+6.4 Summary Statistics and Independence 193
+variance. It turns out that we can avoid two passes by rearranging the
+terms. The formula in (6.43) can be converted to the so-called raw-score raw-score formula
+for variance formula for variance:
+VX[x] = EX[x
+2
+] ? (EX[x])2
+. (6.44)
+The expression in (6.44) can be remembered as “the mean of the square
+minus the square of the mean”. It can be calculated empirically in one pass
+through data since we can accumulate xi (to calculate the mean) and x
+2
+i
+simultaneously, where xi
+is the ith observation. Unfortunately, if imple- If the two terms
+in (6.44) are huge
+and approximately
+equal, we may
+suffer from an
+unnecessary loss of
+numerical precision
+in floating-point
+arithmetic.
+mented in this way, it can be numerically unstable. The raw-score version
+of the variance can be useful in machine learning, e.g., when deriving the
+bias–variance decomposition (Bishop, 2006).
+A third way to understand the variance is that it is a sum of pairwise differences between all pairs of observations. Consider a sample x1, . . . , xN
+of realizations of random variable X, and we compute the squared difference between pairs of xi and xj . By expanding the square, we can show
+that the sum of N2 pairwise differences is the empirical variance of the
+observations:
+1
+N2
+X
+N
+i,j=1
+(xi ? xj )
+2 = 2
+?
+?
+1
+N
+X
+N
+i=1
+x
+2
+i ?
+
+1
+N
+X
+N
+i=1
+xi
+!2
+?
+? . (6.45)
+We see that (6.45) is twice the raw-score expression (6.44). This means
+that we can express the sum of pairwise distances (of which there are N2
+of them) as a sum of deviations from the mean (of which there are N). Geometrically, this means that there is an equivalence between the pairwise
+distances and the distances from the center of the set of points. From a
+computational perspective, this means that by computing the mean (N
+terms in the summation), and then computing the variance (again N
+terms in the summation), we can obtain an expression (left-hand side
+of (6.45)) that has N2
+terms.
+6.4.4 Sums and Transformations of Random Variables
+We may want to model a phenomenon that cannot be well explained by
+textbook distributions (we introduce some in Sections 6.5 and 6.6), and
+hence may perform simple manipulations of random variables (such as
+adding two random variables).
+Consider two random variables X, Y with states x, y ? RD. Then:
+E[x + y] = E[x] + E[y] (6.46)
+E[x ? y] = E[x] ? E[y] (6.47)
+V[x + y] = V[x] + V[y] + Cov[x, y] + Cov[y, x] (6.48)
+V[x ? y] = V[x] + V[y] ? Cov[x, y] ? Cov[y, x] . (6.49)
+
+c 2020 M. P. Deisenroth, A. A. Faisal, C. S. Ong. To be published by Cambridge University Press.
+194 Probability and Distributions
+Mean and (co)variance exhibit some useful properties when it comes
+to affine transformation of random variables. Consider a random variable
+X with mean µ and covariance matrix ? and a (deterministic) affine
+transformation y = Ax + b of x. Then y is itself a random variable
+whose mean vector and covariance matrix are given by
+EY [y] = EX[Ax + b] = AEX[x] + b = Aµ + b , (6.50)
+VY [y] = VX[Ax + b] = VX[Ax] = AVX[x]A
+> = A?A
+>
+, (6.51)
+This can be shown respectively. Furthermore,
+directly by using the
+definition of the
+mean and
+covariance.
+Cov[x, y] = E[x(Ax + b)
+>] ? E[x]E[Ax + b]
+> (6.52a)
+= E[x]b
+> + E[xx>]A
+> ? µb> ? µµ>A
+>
+(6.52b)
+= µb> ? µb> +
+
+E[xx>] ? µµ>
+
+A
+>
+(6.52c)
+(6.38b) = ?A
+>
+, (6.52d)
+where ? = E[xx>] ? µµ> is the covariance of X.
+6.4.5 Statistical Independence
+statistical Definition 6.10 (Independence). Two random variables X, Y are statisindependence tically independent if and only if
+p(x, y) = p(x)p(y). (6.53)
+Intuitively, two random variables X and Y are independent if the value
+of y (once known) does not add any additional information about x (and
+vice versa). If X, Y are (statistically) independent, then
+p(y | x) = p(y)
+p(x | y) = p(x)
+VX,Y [x + y] = VX[x] + VY [y]
+CovX,Y [x, y] = 0
+The last point may not hold in converse, i.e., two random variables can
+have covariance zero but are not statistically independent. To understand
+why, recall that covariance measures only linear dependence. Therefore,
+random variables that are nonlinearly dependent could have covariance
+zero.
+Example 6.5
+Consider a random variable X with zero mean (EX[x] = 0) and also
+EX[x
+3
+] = 0. Let y = x
+2
+(hence, Y is dependent on X) and consider the
+covariance (6.36) between X and Y . But this gives
+Cov[x, y] = E[xy] ? E[x]E[y] = E[x
+3
+] = 0 . (6.54)
+Draft (2020-04-14) of “Mathematics for Machine Learning”. Feedback: https://mml-book.com
+6.4 Summary Statistics and Independence 195
+In machine learning, we often consider problems that can be modeled as independent and identically distributed (i.i.d.) random variables, independent and
+identically
+distributed
+i.i.d.
+X1, . . . , XN . For more than two random variables, the word “independent” (Definition 6.10) usually refers to mutually independent random
+variables, where all subsets are independent (see Pollard (2002, chapter 4) and Jacod and Protter (2004, chapter 3)). The phrase “identically
+distributed” means that all the random variables are from the same distribution.
+Another concept that is important in machine learning is conditional
+independence.
+Definition 6.11 (Conditional Independence). Two random variables X
+and Y are conditionally independent given Z if and only if conditionally
+independent
+p(x, y | z) = p(x | z)p(y | z) for all z ? Z , (6.55)
+where Z is the set of states of random variable Z. We write X ?? Y |Z to
+denote that X is conditionally independent of Y given Z.
+Definition 6.11 requires that the relation in (6.55) must hold true for
+every value of z. The interpretation of (6.55) can be understood as “given
+knowledge about z, the distribution of x and y factorizes”. Independence
+can be cast as a special case of conditional independence if we write X ??
+Y | ?. By using the product rule of probability (6.22), we can expand the
+left-hand side of (6.55) to obtain
+p(x, y | z) = p(x | y, z)p(y | z). (6.56)
+By comparing the right-hand side of (6.55) with (6.56), we see that p(y | z)
+appears in both of them so that
+p(x | y, z) = p(x | z). (6.57)
+Equation (6.57) provides an alternative definition of conditional independence, i.e., X ?? Y |Z. This alternative presentation provides the interpretation “given that we know z, knowledge about y does not change our
+knowledge of x”.
